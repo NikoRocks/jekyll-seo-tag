@@ -42,10 +42,16 @@ module Jekyll
         @page_title ||= format_string(page["title"]) || site_title
       end
 
+      def page_title_suffixed
+        @page_title_suffixed = site["page_title_suffixed"]
+      end
+
       # Page title with site title or description appended
       def title
         @title ||= begin
-          if site_title && page_title != site_title
+          if page_title_suffixed && site_title && page_title != site_title
+            site_title + TITLE_SEPARATOR + page_title
+            elsif site_title && page_title != site_title
             page_title + TITLE_SEPARATOR + site_title
           elsif site_description && site_title
             site_title + TITLE_SEPARATOR + site_description
